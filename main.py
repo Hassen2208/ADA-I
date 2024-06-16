@@ -41,20 +41,21 @@ if __name__ == "__main__":
     ordenar_y_mostrar_datos_1(sedes_1)
     end_time = time.time()
     print(f"Tiempo de ejecución Solución 1: {end_time - start_time} segundos")
-
-    # Aplicar solución 2 y medir el tiempo
+    
+# Aplicar solución 2 y medir el tiempo
     print("\nSolución 2:")
     sedes_2 = [SedeConRendimiento_2(sede.ciudad) for sede in sedes]
     for sede, sede_2 in zip(sedes, sedes_2):
-        for equipo in sede.equipos:
-            equipo_2 = EquipoConRendimiento_2(equipo.deporte)
-            lista_jugadores = ListaEnlazadaJugadores()
-            for jugador in equipo.jugadores:
-                lista_jugadores.agregar(jugador)
-            equipo_2.jugadores = lista_jugadores
-            sede_2.agregar_equipo(equipo_2)
+         for equipo in sede.equipos:
+             equipo_2 = EquipoConRendimiento_2(equipo.deporte)
+             lista_jugadores = ListaEnlazadaJugadores()
+             for jugador in equipo.jugadores:
+                 lista_jugadores.agregar(jugador)
+             equipo_2.jugadores = lista_jugadores
+             sede_2.agregar_equipo(equipo_2)
     
     start_time = time.time()
     ordenar_y_mostrar_datos_2(sedes_2)
     end_time = time.time()
     print(f"Tiempo de ejecución Solución 2: {end_time - start_time} segundos")
+    

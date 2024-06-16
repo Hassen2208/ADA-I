@@ -71,8 +71,10 @@ def ordenar_y_mostrar_datos(sedes):
     for sede in sedes:
         print(f"Sede {sede.nombre}:")
         for equipo in sede.equipos:
+            promedio_rendimiento = equipo.rendimiento_promedio()
             jugadores_ordenados = ', '.join(f"{jugador.id}" for jugador in equipo.jugadores)
-            print(f"{equipo.nombre}: {{{jugadores_ordenados}}}")
+            print(f"{equipo.nombre}, Rendimiento: {promedio_rendimiento}")
+            print(f"{{{jugadores_ordenados}}}")
 
     insertion_sort_jugadores(todos_jugadores)
     print("\nRanking de Jugadores:")
@@ -101,48 +103,3 @@ def ordenar_y_mostrar_datos(sedes):
     print(f"Promedio de edad de los jugadores: {promedio_edad}")
     print(f"Promedio del rendimiento de los jugadores: {promedio_rendimiento}")
 
-
-# Ejemplo de uso
-# jugadores = {
-#     1: Jugador(1, "Sofia García", 21, 66),
-#     2: Jugador(2, "Alejandro Torres", 27, 24),
-#     3: Jugador(3, "Valentina Rodriguez", 19, 15),
-#     4: Jugador(4, "Juan López", 22, 78),
-#     5: Jugador(5, "Martina Martinez", 30, 55),
-#     6: Jugador(6, "Sebastián Pérez", 25, 42),
-#     7: Jugador(7, "Camila Fernández", 24, 36),
-#     8: Jugador(8, "Mateo González", 29, 89),
-#     9: Jugador(9, "Isabella Díaz", 21, 92),
-#     10: Jugador(10, "Daniel Ruiz", 17, 57),
-#     11: Jugador(11, "Luciana Sánchez", 18, 89),
-#     12: Jugador(12, "Lucas Vásquez", 26, 82)
-# }
-
-# sede_cali = Sede("Cali")
-# equipo_futbol_cali = Equipo("Futbol")
-# equipo_futbol_cali.agregar_jugador(jugadores[10])
-# equipo_futbol_cali.agregar_jugador(jugadores[2])
-# sede_cali.agregar_equipo(equipo_futbol_cali)
-
-# equipo_volleyball_cali = Equipo("Volleyball")
-# equipo_volleyball_cali.agregar_jugador(jugadores[1])
-# equipo_volleyball_cali.agregar_jugador(jugadores[9])
-# equipo_volleyball_cali.agregar_jugador(jugadores[12])
-# equipo_volleyball_cali.agregar_jugador(jugadores[6])
-# sede_cali.agregar_equipo(equipo_volleyball_cali)
-
-# sede_medellin = Sede("Medellín")
-# equipo_futbol_medellin = Equipo("Futbol")
-# equipo_futbol_medellin.agregar_jugador(jugadores[11])
-# equipo_futbol_medellin.agregar_jugador(jugadores[8])
-# equipo_futbol_medellin.agregar_jugador(jugadores[7])
-# sede_medellin.agregar_equipo(equipo_futbol_medellin)
-
-# equipo_volleyball_medellin = Equipo("Volleyball")
-# equipo_volleyball_medellin.agregar_jugador(jugadores[3])
-# equipo_volleyball_medellin.agregar_jugador(jugadores[4])
-# equipo_volleyball_medellin.agregar_jugador(jugadores[5])
-# sede_medellin.agregar_equipo(equipo_volleyball_medellin)
-
-# sedes = [sede_cali, sede_medellin]
-# ordenar_y_mostrar_datos(sedes)

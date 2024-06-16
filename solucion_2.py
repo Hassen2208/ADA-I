@@ -95,8 +95,10 @@ def ordenar_y_mostrar_datos(sedes):
     for sede in sedes:
         print(f"Sede {sede.nombre}:")
         for equipo in sede.equipos:
+            promedio_rendimiento = equipo.rendimiento_promedio()
             jugadores_ordenados = ', '.join(f"{jugador.id}" for jugador in equipo.jugadores.to_list())
-            print(f"{equipo.nombre}: {{{jugadores_ordenados}}}")
+            print(f"{equipo.nombre}, Rendimiento: {promedio_rendimiento}")
+            print(f"{{{jugadores_ordenados}}}")
 
     todos_jugadores.sort(key=rendimiento_promedio_jugador)
     print("\nRanking de Jugadores:")
@@ -125,56 +127,69 @@ def ordenar_y_mostrar_datos(sedes):
     print(f"Promedio de edad de los jugadores: {promedio_edad}")
     print(f"Promedio del rendimiento de los jugadores: {promedio_rendimiento}")
 
-
-
 # Ejemplo de uso
 # jugadores = {
-#     1: Jugador(1, "Sofia García", 21, 66),
+#     1: Jugador(1, "Sofia Garcia", 21, 66),
 #     2: Jugador(2, "Alejandro Torres", 27, 24),
 #     3: Jugador(3, "Valentina Rodriguez", 19, 15),
-#     4: Jugador(4, "Juan López", 22, 78),
+#     4: Jugador(4, "Juan Lopez", 22, 78),
 #     5: Jugador(5, "Martina Martinez", 30, 55),
-#     6: Jugador(6, "Sebastián Pérez", 25, 42),
-#     7: Jugador(7, "Camila Fernández", 24, 36),
-#     8: Jugador(8, "Mateo González", 29, 89),
-#     9: Jugador(9, "Isabella Díaz", 21, 92),
+#     6: Jugador(6, "Sebastian Perez", 25, 42),
+#     7: Jugador(7, "Camila Fernandez", 24, 36),
+#     8: Jugador(8, "Mateo Gonzalez", 29, 89),
+#     9: Jugador(9, "Isabella Diaz", 40, 92),
 #     10: Jugador(10, "Daniel Ruiz", 17, 57),
-#     11: Jugador(11, "Luciana Sánchez", 18, 89),
-#     12: Jugador(12, "Lucas Vásquez", 26, 82)
+#     11: Jugador(11, "Luciana Sanchez", 18, 89),
+#     12: Jugador(12, "Lucas Vasquez", 26, 82),
+#     13: Jugador(13, "William Hernandez", 30, 44),
+#     14: Jugador(14, "Laura Perez", 20, 78),
+#     15: Jugador(15, "Santiago Rodriguez", 23, 32),
+#     16: Jugador(16, "Maria Gonzalez", 28, 65),
+#     17: Jugador(17, "Carlos Lopez", 19, 72),
+#     18: Jugador(18, "Valeria Martinez", 21, 45),
+#     19: Jugador(19, "Andres Perez", 30, 78),
+#     20: Jugador(20, "Sara Hernandez", 22, 56)
 # }
 
-# Creating instances of the Sede class
-# sede_cali = Sede("Cali")
-# sede_medellin = Sede("Medellín")
-
-# Creating instances of the Equipo class
-# equipo_futbol_cali = Equipo("Futbol")
-# equipo_volleyball_cali = Equipo("Volleyball")
-# equipo_futbol_medellin = Equipo("Futbol")
-# equipo_volleyball_medellin = Equipo("Volleyball")
-
-# Adding Jugador instances to Equipo instances
+# sede_cali = SedeConRendimiento("Cali")
+# equipo_futbol_cali = EquipoConRendimiento("Futbol")
 # equipo_futbol_cali.agregar_jugador(jugadores[10])
 # equipo_futbol_cali.agregar_jugador(jugadores[2])
+# sede_cali.agregar_equipo(equipo_futbol_cali)
+
+# equipo_volleyball_cali = EquipoConRendimiento("Volleyball")
 # equipo_volleyball_cali.agregar_jugador(jugadores[1])
 # equipo_volleyball_cali.agregar_jugador(jugadores[9])
 # equipo_volleyball_cali.agregar_jugador(jugadores[12])
 # equipo_volleyball_cali.agregar_jugador(jugadores[6])
+# sede_cali.agregar_equipo(equipo_volleyball_cali)
+
+# equipo_basketball_cali = EquipoConRendimiento("Basketball")
+# equipo_basketball_cali.agregar_jugador(jugadores[13])
+# equipo_basketball_cali.agregar_jugador(jugadores[14])
+# equipo_basketball_cali.agregar_jugador(jugadores[15])
+# equipo_basketball_cali.agregar_jugador(jugadores[16])
+# sede_cali.agregar_equipo(equipo_basketball_cali)
+
+# sede_medellin = SedeConRendimiento("Medellín")
+# equipo_futbol_medellin = EquipoConRendimiento("Futbol")
 # equipo_futbol_medellin.agregar_jugador(jugadores[11])
 # equipo_futbol_medellin.agregar_jugador(jugadores[8])
 # equipo_futbol_medellin.agregar_jugador(jugadores[7])
+# sede_medellin.agregar_equipo(equipo_futbol_medellin)
+
+# equipo_volleyball_medellin = EquipoConRendimiento("Volleyball")
 # equipo_volleyball_medellin.agregar_jugador(jugadores[3])
 # equipo_volleyball_medellin.agregar_jugador(jugadores[4])
 # equipo_volleyball_medellin.agregar_jugador(jugadores[5])
-
-# Adding Equipo instances to Sede instances
-# sede_cali.agregar_equipo(equipo_futbol_cali)
-# sede_cali.agregar_equipo(equipo_volleyball_cali)
-# sede_medellin.agregar_equipo(equipo_futbol_medellin)
 # sede_medellin.agregar_equipo(equipo_volleyball_medellin)
 
-# Creating a list of Sede instances
-# sedes = [sede_cali, sede_medellin]
+# equipo_basketball_medellin = EquipoConRendimiento("Basketball")
+# equipo_basketball_medellin.agregar_jugador(jugadores[17])
+# equipo_basketball_medellin.agregar_jugador(jugadores[18])
+# equipo_basketball_medellin.agregar_jugador(jugadores[19])
+# equipo_basketball_medellin.agregar_jugador(jugadores[20])
+# sede_medellin.agregar_equipo(equipo_basketball_medellin)
 
-# Sorting and displaying the data
+# sedes = [sede_cali, sede_medellin]
 # ordenar_y_mostrar_datos(sedes)
