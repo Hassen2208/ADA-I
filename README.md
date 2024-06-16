@@ -1,6 +1,6 @@
 # ADA-I
  ==================================================
-               Guía de Ejecución del Código
+Guía de Ejecución del Código
 ==================================================
 
 Esta guía te ayudará a ejecutar el código para organizar jugadores en sedes y equipos, y medir el tiempo de ejecución de dos algoritmos diferentes. Asegúrate de seguir estos pasos para obtener los resultados deseados.
