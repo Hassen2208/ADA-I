@@ -33,13 +33,13 @@ class ListaEnlazadaJugadores:
         for i in range(n):
             for j in range(0, n-i-1):
                 if (jugadores[j].rendimiento > jugadores[j+1].rendimiento or
-                    (jugadores[j].rendimiento == jugadores[j+1].rendimiento and jugadores[j].edad < jugadores[j+1].edad)):
+                    (jugadores[j].rendimiento == jugadores[j+1].rendimiento and jugadores[j+1].edad < jugadores[j].edad)):
                     jugadores[j], jugadores[j+1] = jugadores[j+1], jugadores[j]
         self.cabeza = None
         for jugador in reversed(jugadores):
             self.agregar(jugador)
 
-class Equipo:
+class EquipoConRendimiento:
     def __init__(self, nombre):
         self.nombre = nombre
         self.jugadores = ListaEnlazadaJugadores()
@@ -49,12 +49,12 @@ class Equipo:
 
     def rendimiento_promedio(self):
         jugadores = self.jugadores.to_list()
-        return sum(jugador.rendimiento for jugador in jugadores) / len(jugadores)
+        return sum(jugador.rendimiento for jugador in jugadores) / len(jugadores) if jugadores else 0
 
     def __str__(self):
         return f"{self.nombre} (Rendimiento Promedio: {self.rendimiento_promedio()})"
 
-class Sede:
+class SedeConRendimiento:
     def __init__(self, nombre):
         self.nombre = nombre
         self.equipos = []
@@ -63,7 +63,7 @@ class Sede:
         self.equipos.append(equipo)
 
     def rendimiento_promedio(self):
-        return sum(equipo.rendimiento_promedio() for equipo in self.equipos) / len(self.equipos)
+        return sum(equipo.rendimiento_promedio() for equipo in self.equipos) / len(self.equipos) if self.equipos else 0
 
     def __str__(self):
         return f"{self.nombre} (Rendimiento Promedio: {self.rendimiento_promedio()})"
@@ -125,47 +125,56 @@ def ordenar_y_mostrar_datos(sedes):
     print(f"Promedio de edad de los jugadores: {promedio_edad}")
     print(f"Promedio del rendimiento de los jugadores: {promedio_rendimiento}")
 
+
+
 # Ejemplo de uso
-jugadores = {
-    1: Jugador(1, "Sofia García", 21, 66),
-    2: Jugador(2, "Alejandro Torres", 27, 24),
-    3: Jugador(3, "Valentina Rodriguez", 19, 15),
-    4: Jugador(4, "Juan López", 22, 78),
-    5: Jugador(5, "Martina Martinez", 30, 55),
-    6: Jugador(6, "Sebastián Pérez", 25, 42),
-    7: Jugador(7, "Camila Fernández", 24, 36),
-    8: Jugador(8, "Mateo González", 29, 89),
-    9: Jugador(9, "Isabella Díaz", 21, 92),
-    10: Jugador(10, "Daniel Ruiz", 17, 57),
-    11: Jugador(11, "Luciana Sánchez", 18, 89),
-    12: Jugador(12, "Lucas Vásquez", 26, 82)
-}
+# jugadores = {
+#     1: Jugador(1, "Sofia García", 21, 66),
+#     2: Jugador(2, "Alejandro Torres", 27, 24),
+#     3: Jugador(3, "Valentina Rodriguez", 19, 15),
+#     4: Jugador(4, "Juan López", 22, 78),
+#     5: Jugador(5, "Martina Martinez", 30, 55),
+#     6: Jugador(6, "Sebastián Pérez", 25, 42),
+#     7: Jugador(7, "Camila Fernández", 24, 36),
+#     8: Jugador(8, "Mateo González", 29, 89),
+#     9: Jugador(9, "Isabella Díaz", 21, 92),
+#     10: Jugador(10, "Daniel Ruiz", 17, 57),
+#     11: Jugador(11, "Luciana Sánchez", 18, 89),
+#     12: Jugador(12, "Lucas Vásquez", 26, 82)
+# }
 
-sede_cali = Sede("Cali")
-equipo_futbol_cali = Equipo("Futbol")
-equipo_futbol_cali.agregar_jugador(jugadores[10])
-equipo_futbol_cali.agregar_jugador(jugadores[2])
-sede_cali.agregar_equipo(equipo_futbol_cali)
+# Creating instances of the Sede class
+# sede_cali = Sede("Cali")
+# sede_medellin = Sede("Medellín")
 
-equipo_volleyball_cali = Equipo("Volleyball")
-equipo_volleyball_cali.agregar_jugador(jugadores[1])
-equipo_volleyball_cali.agregar_jugador(jugadores[9])
-equipo_volleyball_cali.agregar_jugador(jugadores[12])
-equipo_volleyball_cali.agregar_jugador(jugadores[6])
-sede_cali.agregar_equipo(equipo_volleyball_cali)
+# Creating instances of the Equipo class
+# equipo_futbol_cali = Equipo("Futbol")
+# equipo_volleyball_cali = Equipo("Volleyball")
+# equipo_futbol_medellin = Equipo("Futbol")
+# equipo_volleyball_medellin = Equipo("Volleyball")
 
-sede_medellin = Sede("Medellín")
-equipo_futbol_medellin = Equipo("Futbol")
-equipo_futbol_medellin.agregar_jugador(jugadores[11])
-equipo_futbol_medellin.agregar_jugador(jugadores[8])
-equipo_futbol_medellin.agregar_jugador(jugadores[7])
-sede_medellin.agregar_equipo(equipo_futbol_medellin)
+# Adding Jugador instances to Equipo instances
+# equipo_futbol_cali.agregar_jugador(jugadores[10])
+# equipo_futbol_cali.agregar_jugador(jugadores[2])
+# equipo_volleyball_cali.agregar_jugador(jugadores[1])
+# equipo_volleyball_cali.agregar_jugador(jugadores[9])
+# equipo_volleyball_cali.agregar_jugador(jugadores[12])
+# equipo_volleyball_cali.agregar_jugador(jugadores[6])
+# equipo_futbol_medellin.agregar_jugador(jugadores[11])
+# equipo_futbol_medellin.agregar_jugador(jugadores[8])
+# equipo_futbol_medellin.agregar_jugador(jugadores[7])
+# equipo_volleyball_medellin.agregar_jugador(jugadores[3])
+# equipo_volleyball_medellin.agregar_jugador(jugadores[4])
+# equipo_volleyball_medellin.agregar_jugador(jugadores[5])
 
-equipo_volleyball_medellin = Equipo("Volleyball")
-equipo_volleyball_medellin.agregar_jugador(jugadores[3])
-equipo_volleyball_medellin.agregar_jugador(jugadores[4])
-equipo_volleyball_medellin.agregar_jugador(jugadores[5])
-sede_medellin.agregar_equipo(equipo_volleyball_medellin)
+# Adding Equipo instances to Sede instances
+# sede_cali.agregar_equipo(equipo_futbol_cali)
+# sede_cali.agregar_equipo(equipo_volleyball_cali)
+# sede_medellin.agregar_equipo(equipo_futbol_medellin)
+# sede_medellin.agregar_equipo(equipo_volleyball_medellin)
 
-sedes = [sede_cali, sede_medellin]
-ordenar_y_mostrar_datos(sedes)
+# Creating a list of Sede instances
+# sedes = [sede_cali, sede_medellin]
+
+# Sorting and displaying the data
+# ordenar_y_mostrar_datos(sedes)
