@@ -13,7 +13,7 @@ Esta guía te ayudará a ejecutar el código para organizar jugadores en sedes y
    - `pruebas.py`
    - `solucion_1.py`
    - `solucion_2.py`
-   - `organizador.py`
+   - `main.py`
 
 2. **Descripción de Archivos**
 
