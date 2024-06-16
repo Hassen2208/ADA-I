@@ -5,16 +5,51 @@ class Jugador:
         self.edad = edad
         self.rendimiento = rendimiento
 
+class NodoJugador:
+    def __init__(self, jugador):
+        self.jugador = jugador
+        self.siguiente = None
+
+class ListaEnlazadaJugadores:
+    def __init__(self):
+        self.cabeza = None
+
+    def agregar(self, jugador):
+        nuevo_nodo = NodoJugador(jugador)
+        nuevo_nodo.siguiente = self.cabeza
+        self.cabeza = nuevo_nodo
+
+    def to_list(self):
+        jugadores = []
+        actual = self.cabeza
+        while actual:
+            jugadores.append(actual.jugador)
+            actual = actual.siguiente
+        return jugadores
+
+    def bubble_sort(self):
+        jugadores = self.to_list()
+        n = len(jugadores)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                if (jugadores[j].rendimiento > jugadores[j+1].rendimiento or
+                    (jugadores[j].rendimiento == jugadores[j+1].rendimiento and jugadores[j+1].edad < jugadores[j].edad)):
+                    jugadores[j], jugadores[j+1] = jugadores[j+1], jugadores[j]
+        self.cabeza = None
+        for jugador in reversed(jugadores):
+            self.agregar(jugador)
+
 class EquipoConRendimiento:
     def __init__(self, nombre):
         self.nombre = nombre
-        self.jugadores = []
+        self.jugadores = ListaEnlazadaJugadores()
 
     def agregar_jugador(self, jugador):
-        self.jugadores.append(jugador)
+        self.jugadores.agregar(jugador)
 
     def rendimiento_promedio(self):
-        return sum(jugador.rendimiento for jugador in self.jugadores) / len(self.jugadores) if self.jugadores else 0
+        jugadores = self.jugadores.to_list()
+        return sum(jugador.rendimiento for jugador in jugadores) / len(jugadores) if jugadores else 0
 
     def __str__(self):
         return f"{self.nombre} (Rendimiento Promedio: {self.rendimiento_promedio()})"
@@ -27,33 +62,22 @@ class SedeConRendimiento:
     def agregar_equipo(self, equipo):
         self.equipos.append(equipo)
 
-    def rendimiento_promedio(self):
-        return sum(equipo.rendimiento_promedio() for equipo in self.equipos) / len(self.equipos) if self.equipos else 0
+    def rendimiento_total(self):
+        return sum(equipo.rendimiento_promedio() for equipo in self.equipos)
 
     def __str__(self):
-        return f"{self.nombre} (Rendimiento Promedio: {self.rendimiento_promedio()})"
+        return f"{self.nombre} (Rendimiento Total: {self.rendimiento_total()})"
 
-def insertion_sort_jugadores(jugadores):
-    for i in range(1, len(jugadores)):
-        key = jugadores[i]
-        j = i - 1
-        while j >= 0 and (jugadores[j].rendimiento > key.rendimiento or 
-                          (jugadores[j].rendimiento == key.rendimiento and jugadores[j].edad < key.edad)):
-            jugadores[j + 1] = jugadores[j]
-            j -= 1
-        jugadores[j + 1] = key
-
-def selection_sort_equipos(equipos):
-    for i in range(len(equipos)):
-        min_idx = i
-        for j in range(i + 1, len(equipos)):
-            if (equipos[j].rendimiento_promedio() < equipos[min_idx].rendimiento_promedio() or
-                (equipos[j].rendimiento_promedio() == equipos[min_idx].rendimiento_promedio() and len(equipos[j].jugadores) > len(equipos[min_idx].jugadores))):
-                min_idx = j
-        equipos[i], equipos[min_idx] = equipos[min_idx], equipos[i]
+def bubble_sort_equipos(equipos):
+    n = len(equipos)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if (equipos[j].rendimiento_promedio() > equipos[j+1].rendimiento_promedio() or
+                (equipos[j].rendimiento_promedio() == equipos[j+1].rendimiento_promedio() and len(equipos[j].jugadores.to_list()) < len(equipos[j+1].jugadores.to_list()))):
+                equipos[j], equipos[j+1] = equipos[j+1], equipos[j]
 
 def rendimiento_promedio_sede(sede):
-    return (sede.rendimiento_promedio(), -len(sede.equipos))
+    return (sede.rendimiento_total(), -len(sede.equipos))
 
 def rendimiento_promedio_jugador(jugador):
     return (jugador.rendimiento, jugador.edad)
@@ -62,21 +86,22 @@ def ordenar_y_mostrar_datos(sedes):
     todos_jugadores = []
     for sede in sedes:
         for equipo in sede.equipos:
-            insertion_sort_jugadores(equipo.jugadores)
-            todos_jugadores.extend(equipo.jugadores)
-        selection_sort_equipos(sede.equipos)
+            equipo.jugadores.bubble_sort()
+            todos_jugadores.extend(equipo.jugadores.to_list())
+        bubble_sort_equipos(sede.equipos)
     sedes.sort(key=rendimiento_promedio_sede)
 
     print("Datos de Sedes y Equipos:")
     for sede in sedes:
-        print(f"Sede {sede.nombre}:")
+        rendimiento_sede = sede.rendimiento_total()
+        print(f"Sede {sede.nombre}, Rendimiento: {rendimiento_sede}")
         for equipo in sede.equipos:
             promedio_rendimiento = equipo.rendimiento_promedio()
-            jugadores_ordenados = ', '.join(f"{jugador.id}" for jugador in equipo.jugadores)
+            jugadores_ordenados = ', '.join(f"{jugador.id}" for jugador in equipo.jugadores.to_list())
             print(f"{equipo.nombre}, Rendimiento: {promedio_rendimiento}")
             print(f"{{{jugadores_ordenados}}}")
 
-    insertion_sort_jugadores(todos_jugadores)
+    todos_jugadores.sort(key=rendimiento_promedio_jugador)
     print("\nRanking de Jugadores:")
     print("[" + ", ".join(str(jugador.id) for jugador in todos_jugadores) + "]")
 
@@ -102,4 +127,3 @@ def ordenar_y_mostrar_datos(sedes):
     print(f"Jugador más veterano: {jugador_mas_veterano.id}, {jugador_mas_veterano.nombre}, {jugador_mas_veterano.edad}")
     print(f"Promedio de edad de los jugadores: {promedio_edad}")
     print(f"Promedio del rendimiento de los jugadores: {promedio_rendimiento}")
-
